@@ -3,8 +3,8 @@
 (function(module) {
   const articleView = {};
 
-  // COMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
-  const render = function(article) {
+  // XCOMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live? ?(1. renders Handlebars.compile. 2.calculates how many days has been passed since the article was first published. 3.converts markeddown  body text to html. It is called articleView.index function down below.)
+  articleView.render = function(article) {
     let template = Handlebars.compile($('#article-template').text());
 
     article.daysAgo = parseInt((new Date() - new Date(article.publishedOn))/60/60/24/1000);
@@ -61,7 +61,7 @@
   articleView.index = function(articles) {
     $('#articles').show().siblings().hide();
     $('#articles article').remove();
-    articles.forEach(a => $('#articles').append(render(a)))
+    articles.forEach(a => $('#articles').append(articleView.render(a)))
     // REVIEW: Call the new unified filter handler function
     articleView.populateFilters();
     articleView.handleFilters();

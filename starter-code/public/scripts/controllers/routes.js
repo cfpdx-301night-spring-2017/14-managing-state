@@ -11,5 +11,5 @@ page('/author', '/');
 page('/author/:authorName', articleController.loadByAuthor, articleController.index);
 page('/category/:categoryName', articleController.loadByCategory, articleController.index);
 
-// COMMENT: What is this function doing?
+// XCOMMENT: What is this function doing? (initializes the page and enables page the page routes above )
 page();

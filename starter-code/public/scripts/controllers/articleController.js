@@ -3,7 +3,7 @@
 (function(module) {
   const articleController = {};
 
-  // COMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
+  // XCOMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?(1.It is passing ctx.articles parameter into aricleView.index function. It is called multiple times in routes.js file. It calls other functions in articleView.js.)
   articleController.index = (ctx) => articleView.index(ctx.articles);
 
   // REVIEW: Middleware for grabbing one article by ID:
@@ -13,7 +13,7 @@
       next();
     };
 
-  // COMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
+  // XCOMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live? (1. calls the findWhere FUNCTION for an article_id, and calls back the articleData. This function calls Article.findwhere in article.js)
     Article.findWhere('article_id', ctx.params.article_id, articleData);
   };
 
