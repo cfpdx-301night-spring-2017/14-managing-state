@@ -8,7 +8,7 @@ const requestProxy = require('express-request-proxy'); // REVIEW: We've added a 
 const PORT = process.env.PORT || 3000;
 const app = express();
 // const conString = 'postgres://USERNAME:PASSWORD@HOST:PORT';
-const conString = ''; // TODO: Don't forget to set your own conString
+const conString = 'postgres://postgres:gumus@localhost:5432/demo'; // TODO: Don't forget to set your own conString
 const client = new pg.Client(conString);
 client.connect();
 client.on('error', function(error) {
@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./public'));
 
-// COMMENT: What is this function doing? Why do we need it? Where does it receive a request from?
-// (put your response in a comment here)
+// XCOMMENT: What is this function doing? Why do we need it? Where does it receive a request from?
+// (1. makes the ajax call to github 2.receives tha call from repo.js requestRepos. We need this to contact github page, and get the repos with our unique token. Client can not make the api request directly.)
 function proxyGitHub(request, response) {
   console.log('Routing GitHub request for', request.params[0]);
   (requestProxy({
@@ -34,8 +34,8 @@ app.get('/', (request, response) => response.sendFile('index.html', {root: '.'})
 app.get('/new', (request, response) => response.sendFile('new.html', {root: '.'}));
 app.get('/github/*', proxyGitHub);
 
-// COMMENT: What is this route doing? Where does it receive a request from?
-// (put your response in a comment here)
+// XCOMMENT: What is this route doing? Where does it receive a request from?
+// (1. creates the database for an article/author with a matching value. Requested from article.js findWhere function)
 app.get('/articles/find', (request, response) => {
   let sql = `SELECT * FROM articles
             INNER JOIN authors
@@ -47,8 +47,8 @@ app.get('/articles/find', (request, response) => {
   .catch(console.error);
 })
 
-// COMMENT: What is this route doing? Where does it receive a request from?
-// (put your response in a comment here)
+// XCOMMENT: What is this route doing? Where does it receive a request from?
+// (1. it quarries the unique categories from articles table. Requested from article.js allCategories)
 app.get('/categories', (request, response) => {
   client.query(`SELECT DISTINCT category FROM articles;`)
   .then(result => response.send(result.rows))
@@ -91,8 +91,8 @@ app.post('/articles', (request, response) => {
   .catch(console.error);
 });
 
-// COMMENT: What is this route doing? Where does it receive a request from?
-// (put your response in a comment here)
+// XCOMMENT: What is this route doing? Where does it receive a request from?
+// (1. updates the individual record author table  and the articles table. Requested from aricle.js Article.prototype.updateRecord function)
 app.put('/articles/:id', (request, response) => {
   client.query(`
     UPDATE authors
